@@ -398,7 +398,7 @@ WGCLIENT
 	}{
 		datadir,
 		profile,
-		httpHost,
+		wrHost,
 	})
 	if err != nil {
 		logger.Warn(err)
