@@ -21,26 +21,6 @@ var (
 	maxProfilesPerUser = 10
 )
 
-func ssoHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if token := samlSP.GetAuthorizationToken(r); token != nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
-	logger.Debugf("SSO: require account handler")
-	samlSP.RequireAccountHandler(w, r)
-	return
-}
-
-func samlHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if samlSP == nil {
-		logger.Warnf("SAML is not configured")
-		http.NotFound(w, r)
-		return
-	}
-	logger.Debugf("SSO: samlSP.ServeHTTP")
-	samlSP.ServeHTTP(w, r)
-}
-
 func wireguardQRConfigHandler(w *Web) {
 	profile, err := config.FindProfile(w.ps.ByName("profile"))
 	if err != nil {
@@ -491,16 +471,9 @@ func settingsHandler(w *Web) {
 		i.Email = email
 		return nil
 	})
+	//bypas buggy SAML
+	samlSP = nil
 
-	// Configure SAML if metadata is present.
-	if len(samlMetadata) > 0 {
-		if err := configureSAML(); err != nil {
-			logger.Warnf("configuring SAML failed: %s", err)
-			w.Redirect("/settings?error=saml")
-		}
-	} else {
-		samlSP = nil
-	}
 
 	if currentPassword != "" || newPassword != "" {
 		if !validPassword.MatchString(newPassword) {
