@@ -1,11 +1,11 @@
 FROM golang:1.13
-MAINTAINER github.com/subspacecloud/subspace
+MAINTAINER github.com/KDobarskyi/subspace/
 
 RUN apt-get update \
     && apt-get install -y git \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /go/src/github.com/subspacecloud/subspace
+WORKDIR /go/src/github.com/KDobarskyi/subspace/
 
 RUN go get -v \
     github.com/jteeuwen/go-bindata/... \
