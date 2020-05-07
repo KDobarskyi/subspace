@@ -1,5 +1,5 @@
 FROM golang:1.13
-MAINTAINER github.com/KDobarskyi/subspace/
+MAINTAINER github.com/KDobarskyi/subspace
 
 RUN apt-get update \
     && apt-get install -y git \
