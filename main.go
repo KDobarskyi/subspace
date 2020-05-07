@@ -39,6 +39,7 @@ var (
 	// httpd
 	httpAddr   string
 	httpHost   string
+	wrHost     string
 	httpPrefix string
 
 	// Insecure http cookies (only recommended for internal LANs/VPNs)
@@ -89,6 +90,7 @@ func init() {
 	cli.StringVar(&datadir, "datadir", "/data", "data dir")
 	cli.StringVar(&backlink, "backlink", "", "backlink (optional)")
 	cli.StringVar(&httpHost, "http-host", "", "HTTP host")
+	cli.StringVar(&wrHost, "wr-host", "", "WR host")
 	cli.StringVar(&httpAddr, "http-addr", ":80", "HTTP listen address")
 	cli.BoolVar(&httpInsecure, "http-insecure", false, "enable sessions cookies for http (no https) not recommended")
 	cli.BoolVar(&letsencrypt, "letsencrypt", true, "enable TLS using Let's Encrypt on port 443")
@@ -124,6 +126,12 @@ func main() {
 		usage("--http-host flag is required")
 		os.Exit(1)
 	}
+	
+	if wrHost == "" {
+		usage("--wr-host flag is required")
+		os.Exit(1)
+	}
+
 
 	// debug logging
 	logger.Out = os.Stdout
