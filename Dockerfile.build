@@ -38,4 +38,4 @@ RUN go-bindata --pkg main static/... templates/... email/... \
     && go vet --all
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -v --compiler gc --ldflags "-extldflags -static -s -w -X main.version=${BUILD_VERSION}" -o /usr/bin/subspace-linux-amd64
+    go build -v --compiler gc --ldflags "-extldflags -static -s -w -X main.version=${BUILD_VERSION}" -o /tmp/subspace-linux-amd64
