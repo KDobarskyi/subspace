@@ -10,6 +10,11 @@ if [ -z "${SUBSPACE_HTTP_HOST-}" ] ; then
     exit 1
 fi
 
+if [ -z "${SUBSPACE_WR_HOST-}" ] ; then
+    echo "Environment variable SUBSPACE_WR_HOST required. Exiting."
+    exit 1
+fi
+
 # Optional environment variables.
 if [ -z "${SUBSPACE_BACKLINK-}" ] ; then
     export SUBSPACE_BACKLINK=""
@@ -161,6 +166,7 @@ if ! test -d /etc/sv/subspace ; then
 #!/bin/sh
 exec /usr/bin/subspace \
     "--http-host=${SUBSPACE_HTTP_HOST}" \
+    "--wr-host=${SUBSPACE_WR_HOST}" \
     "--http-addr=${SUBSPACE_HTTP_ADDR}" \
     "--http-insecure=${SUBSPACE_HTTP_INSECURE}" \
     "--backlink=${SUBSPACE_BACKLINK}" \
